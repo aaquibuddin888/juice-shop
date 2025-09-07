@@ -1,0 +1,19 @@
+name: Generate Security PDF Report
+
+on:
+  workflow_dispatch:
+
+jobs
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Generate PDF Report
+        uses: rsdmike/github-security-report-action@v2
+        with:
+          token: ${{ secrets.PAT }}
+          sarifReportDir: ./results  # Adjust if your SARIF files are elsewhere
+          outputDir: ./pdf-report
+          template: report  # Options: summary, report, report_sca
