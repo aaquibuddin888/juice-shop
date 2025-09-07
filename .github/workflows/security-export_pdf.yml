@@ -1,16 +1,30 @@
 name: Generate Security PDF Report
 on:
   workflow_dispatch:
+
 jobs:
   report:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript    # Update to your repo languages
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          output: ./results
+
       - name: Generate PDF Report
         uses: rsdmike/github-security-report-action@v2
         with:
           token: ${{ secrets.PAT }}
-          sarifReportDir: ./results  # Adjust if your SARIF files are elsewhere
+          sarifReportDir: ./results
           outputDir: ./pdf-report
-          template: report  # Options: summary, report, report_sca
+          template: report
+
