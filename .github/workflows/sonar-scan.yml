@@ -17,15 +17,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Ensures full git history for accurate analysis
+
+      - name: Cache SonarQube Scanner
+        uses: actions/cache@v4  # ✅ Updated to latest supported version
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: |
+            ${{ runner.os }}-sonar
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4.1.0
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.organization=mytestproject
             -Dsonar.projectKey=mytestproject-sonar
+            -Dsonar.projectName=mytestpoject
+            -Dsonar.sources=.
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
