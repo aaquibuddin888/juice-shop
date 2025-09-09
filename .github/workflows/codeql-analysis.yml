@@ -1,4 +1,4 @@
-name: "CodeQL Scan"
+name: CodeQL Scan
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
         language: [ 'javascript', 'typescript' ]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
@@ -27,6 +27,7 @@ jobs:
         config: |
           paths-ignore:
             - 'data/static/codefixes'
+        setup: advanced          # <--- Add this line
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
     - name: Perform CodeQL Analysis
